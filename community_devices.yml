@@ -4,15 +4,31 @@
 samsung_r7:
   type: image
   arch: arm64
-  edition: phosh
-  variant: phone
+  # r7-server: edition changed from "phosh" to "gsi_base" (2026-08-12).
+  # "phosh" pulls the ENTIRE droidian-phosh metapackage (firefox,
+  # epiphany-browser, gnome-calculator/calendar/maps/weather, gnome-software
+  # +flatpak/packagekit, evolution-data-server, chatty, avahi-daemon,
+  # cups-pk-helper, droidian-camera, feedbackd, gvfs, dozens of GTK/GNOME
+  # libs...) as a DIRECT dependency, before our own adaptation package's
+  # Conflicts even get evaluated - confirmed live via the actual build log
+  # (`==== install droidian-phosh ====`, ~50 packages). Our
+  # Conflicts: droidian-phosh-minimal only ever removed the 3 thin wrapper
+  # metapackages (-full/-minimal/-phone), never the parent droidian-phosh
+  # or anything it pulled in as a dependency - confirmed via the build's
+  # own `apt -y autoremove --purge` polish step reporting `Removing: 0`.
+  # "gsi_base" (droidian_gsi_base.yaml in droidian-releng/rootfs-templates)
+  # installs only the bare `droidian-base` metapackage + adaptation-hybris +
+  # GSI/user/system setup - no phosh, no GNOME, no desktop apps at all.
+  # `variant` is phosh-specific (phone/tablet/desktop) and unused by
+  # gsi_base, so dropped.
+  edition: gsi_base
   apilevel: 33
   use_internal_repository: true
 
   # This is the r7-server fork's own recipe, not the phone image's -
-  # firefox/nautilus/gstreamer1.0-tools (GUI apps + camera-debug tooling)
-  # dropped since there's no Phosh/GUI session here at all to run them in
-  # (see adaptation-samsung-r7-server's own Conflicts: droidian-phosh-minimal).
+  # firefox/nautilus (GUI apps) no longer reachable at all now that
+  # edition is gsi_base; gstreamer1.0-tools (camera-debug tooling) kept
+  # deliberately for the development build.
   packages:
     - adaptation-samsung-r7
     - adaptation-samsung-r7-configs
