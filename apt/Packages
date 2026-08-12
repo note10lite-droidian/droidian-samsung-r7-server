@@ -194,6 +194,3 @@ Description: Linux kernel for Samsung Galaxy Note10 Lite (latest)
 X-Droidian-Vcs-Revision: 4d5ed1b6acd66cf574cb8c4d7cab70076563d144
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
-dpkg-scanpackages: warning: Packages in archive but missing from override file:
-dpkg-scanpackages: warning:   adaptation-samsung-r7 adaptation-samsung-r7-configs adaptation-samsung-r7-desktop linux-bootimage-4.9.191-samsung-r7 linux-bootimage-samsung-r7 linux-image-4.9.191-samsung-r7 linux-image-samsung-r7
-dpkg-scanpackages: info: Wrote 7 entries to output Packages file.
