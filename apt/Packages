@@ -1,15 +1,15 @@
 Package: adaptation-samsung-r7
-Version: 1.0.1+git20260812104222.f8bfa1b.bookworm
+Version: 1.0.1+git20260812152738.d4a615e.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
 Installed-Size: 9
-Depends: adaptation-hybris-api33, adaptation-samsung-r7-configs (= 1.0.1+git20260812104222.f8bfa1b.bookworm), adaptation-samsung-r7-desktop (= 1.0.1+git20260812104222.f8bfa1b.bookworm), openssh-server, ufw
+Depends: adaptation-hybris-api33, adaptation-samsung-r7-configs (= 1.0.1+git20260812152738.d4a615e.bookworm), adaptation-samsung-r7-desktop (= 1.0.1+git20260812152738.d4a615e.bookworm), openssh-server, ufw
 Conflicts: droidian-minimal, droidian-phosh-minimal
-Filename: ./adaptation-samsung-r7_1.0.1+git20260812104222.f8bfa1b.bookworm_arm64.deb
-Size: 2964
-MD5sum: 456f56639b4da28a0405fa83e0d7bc9e
-SHA1: 1aebed2c8a7a4b1d1b25f4fc0e87dd127378b6f0
-SHA256: c1c42edadf13cbdf95c40dcd2ec4f91bd2c4d6a6df513fbe12b2fa491d70eac7
+Filename: ./adaptation-samsung-r7_1.0.1+git20260812152738.d4a615e.bookworm_arm64.deb
+Size: 2984
+MD5sum: 768974c850c54b23042aa212f6da97ae
+SHA1: e8259a49ce93bc46a0d7933c3cf3dae0b32e20a9
+SHA256: fe08e864873ac2b51d9af30c53f4ac27a2b415d7644a97efed2123afa2672589
 Section: metapackages
 Priority: optional
 Description: Community adaptation for samsung-r7-server - metapackage
@@ -36,21 +36,21 @@ Description: Community adaptation for samsung-r7-server - metapackage
  base image ships no SSH server at all, which left a fresh install with no
  remote access; SSH over Wi-Fi is the dependable fallback regardless of USB
  state.
-X-Droidian-Vcs-Revision: f8bfa1bff62bae54f8be73bf060657d8188b8f08
+X-Droidian-Vcs-Revision: d4a615ee3dc4dec83ba58e7044ea146a74be6f16
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: adaptation-samsung-r7-configs
 Source: adaptation-samsung-r7
-Version: 1.0.1+git20260812104222.f8bfa1b.bookworm
+Version: 1.0.1+git20260812152738.d4a615e.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
-Installed-Size: 226
-Depends: dconf-gsettings-backend | gsettings-backend, init-system-helpers (>= 1.52), python3-gi, python3-evdev, gir1.2-gtk-4.0, gir1.2-adw-1, gir1.2-gtk4layershell-1.0, libgtk4-layer-shell0, isc-dhcp-server, usbmuxd, libpam-google-authenticator, oathtool
-Filename: ./adaptation-samsung-r7-configs_1.0.1+git20260812104222.f8bfa1b.bookworm_arm64.deb
-Size: 38676
-MD5sum: 933b1b2fada5cd06b53ae0d39c5e8c8e
-SHA1: a43fe98127c32e909e55d1e959661bcda3783416
-SHA256: 859951ee888a3b7f48b47313bad4baa7c581bd70544184f03e85dde6166fc51f
+Installed-Size: 163
+Depends: dconf-gsettings-backend | gsettings-backend, init-system-helpers (>= 1.52), python3-gi, python3-evdev, gir1.2-gtk-4.0, gir1.2-adw-1, gir1.2-gtk4layershell-1.0, libgtk4-layer-shell0, isc-dhcp-server, usbmuxd, libpam-google-authenticator, oathtool, libglib2.0-bin
+Filename: ./adaptation-samsung-r7-configs_1.0.1+git20260812152738.d4a615e.bookworm_arm64.deb
+Size: 34316
+MD5sum: ba5912935a703c552d5ab8db24b3bcd0
+SHA1: 53d20548ed26a7e73230bb61b8206c036e01aedb
+SHA256: f16a3908bcab67878c4bb841ef37559d70b76a1eee23e8bedad51ac32c2b62ce
 Section: metapackages
 Priority: optional
 Description: Community adaptation for samsung-r7 - adaptation configurations
@@ -67,26 +67,33 @@ Description: Community adaptation for samsung-r7 - adaptation configurations
  binds the Ethernet interface from there - no adaptation-side wiring needed
  beyond having the package installed.
  .
+ Pulls libglib2.0-bin for the gsettings CLI, which r7-spen-mode-daemon
+ shells out to. This used to arrive implicitly as part of the phosh
+ edition's dependency tree; the gsi_base edition this fork now builds on
+ does NOT pull it in, so it has to be declared. The same package provides
+ gdbus - whose absence silently broke the on-screen-keyboard toggle button
+ (exit 127 on every press) until that script was moved to busctl.
+ .
  Pulls libpam-google-authenticator + oathtool for SSH TOTP 2FA
  (key + verification code, no password auth at all — see postinst for the
  pam.d/sshd_config patches). RFC 6238 TOTP, not tied to Google despite the
  package name — no network calls, no account, works with any standards-
  compliant authenticator app.
-X-Droidian-Vcs-Revision: f8bfa1bff62bae54f8be73bf060657d8188b8f08
+X-Droidian-Vcs-Revision: d4a615ee3dc4dec83ba58e7044ea146a74be6f16
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: adaptation-samsung-r7-desktop
 Source: adaptation-samsung-r7
-Version: 1.0.1+git20260812104222.f8bfa1b.bookworm
+Version: 1.0.1+git20260812152738.d4a615e.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
 Installed-Size: 9
-Depends: adaptation-samsung-r7-configs (= 1.0.1+git20260812104222.f8bfa1b.bookworm), phoc, waybar, foot, phosh-osk-stub, python3-evdev, pamtester, wlopm
-Filename: ./adaptation-samsung-r7-desktop_1.0.1+git20260812104222.f8bfa1b.bookworm_arm64.deb
-Size: 2980
-MD5sum: 86b2e58ac520d681f58986dcbb12e1be
-SHA1: 3cfe0b8b84d3184cd2012c16388aaad52baea03a
-SHA256: 7a2c71d7a4876da9d70c7e3762ed54f5e056bcd04279b89cdf7654ea2a650b13
+Depends: adaptation-samsung-r7-configs (= 1.0.1+git20260812152738.d4a615e.bookworm), phoc, waybar, foot, phosh-osk-stub, python3-evdev, pamtester, wlopm, feedbackd
+Filename: ./adaptation-samsung-r7-desktop_1.0.1+git20260812152738.d4a615e.bookworm_arm64.deb
+Size: 3236
+MD5sum: 48fc4b8195879d5c4077ec4df6e7e2be
+SHA1: 92f8df5746162f9cbc964f68ba4996cc0b05cb69
+SHA256: 9c835add8d2806350f7a00172fd03790e4f6131580d9a8ae9c9a081a293b1853
 Section: metapackages
 Priority: optional
 Description: Community adaptation for samsung-r7-server - console session
@@ -98,6 +105,14 @@ Description: Community adaptation for samsung-r7-server - console session
  Requires=iio-sensor-proxy.service which doesn't exist in this image, so
  it simply never starts) but are no longer pulled in as a real
  dependency.
+ Pulls feedbackd for haptic feedback (the daemon that owns
+ org.sigxcpu.Feedback). phosh-osk-stub depends only on libfeedback, the
+ CLIENT library - without the daemon there is nothing on the bus to serve
+ the request, so keyboard vibration silently did nothing. Confirmed live
+ 2026-08-12: the vibrator hardware and kernel driver were fine all along
+ (isa1000_vibrator, /sys/class/timed_output/vibrator), only the daemon was
+ missing because the gsi_base edition does not pull it in.
+ .
  Notes: wayfire was tried first and dropped (2026-08-11) after live
  testing found an unfixed bug — wlroots 0.18-backport surfaces (both
  xdg-shell and layer-shell) are born "uninitialized," breaking focus
@@ -108,22 +123,22 @@ Description: Community adaptation for samsung-r7-server - console session
  around, no touch calibration matrix needed since wlroots already applies
  the output transform to absolute input devices internally (a matrix
  layered on top double-rotates touch).
-X-Droidian-Vcs-Revision: f8bfa1bff62bae54f8be73bf060657d8188b8f08
+X-Droidian-Vcs-Revision: d4a615ee3dc4dec83ba58e7044ea146a74be6f16
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: linux-bootimage-4.9.191-samsung-r7
 Source: linux-android-samsung-r7
-Version: 1.0.0+git20260812111656.39375d6.r7.server
+Version: 1.0.0+git20260812145741.238515f.r7.server
 Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 112657
 Pre-Depends: flash-bootimage (>= 4)
-Depends: linux-image-4.9.191-samsung-r7 (= 1.0.0+git20260812111656.39375d6.r7.server)
+Depends: linux-image-4.9.191-samsung-r7 (= 1.0.0+git20260812145741.238515f.r7.server)
 Filename: ./linux-bootimage-4.9.191-samsung-r7.deb
-Size: 48773608
-MD5sum: 7be9def7fd47f7b43a4339f6ce34c888
-SHA1: 9a6dd41d71c331f3070e7f748a1783698479d7a9
-SHA256: 5a35890244ed34e2eb512c0b8396f2f743eee0541b44811164d53ef745071df3
+Size: 46509988
+MD5sum: 0f1800bb83d7b865d5ee3569177cb457
+SHA1: 7ee66cc515036a669fd29b01839c63d60e0ba53e
+SHA256: f5769c4b8845f93a1147bb5318e1b0957beb3ed1d25a966f895deb62c4200fd1
 Section: kernel
 Priority: optional
 Description: Linux kernel for Samsung Galaxy Note10 Lite - Android Boot Image
@@ -131,39 +146,39 @@ Description: Linux kernel for Samsung Galaxy Note10 Lite - Android Boot Image
  .
  Note: This package ships an Android Boot Image bundled with Halium's
  initramfs.
-X-Droidian-Vcs-Revision: 39375d61c1035c4f467cece3e629ea64f0b94b6b
+X-Droidian-Vcs-Revision: 238515f6e74881397b8d182868134578e070cf20
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
 Package: linux-bootimage-samsung-r7
 Source: linux-android-samsung-r7
-Version: 1.0.0+git20260812111656.39375d6.r7.server
+Version: 1.0.0+git20260812145741.238515f.r7.server
 Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 7
-Depends: linux-bootimage-4.9.191-samsung-r7 (= 1.0.0+git20260812111656.39375d6.r7.server)
+Depends: linux-bootimage-4.9.191-samsung-r7 (= 1.0.0+git20260812145741.238515f.r7.server)
 Filename: ./linux-bootimage-samsung-r7.deb
-Size: 1364
-MD5sum: 4663dc2c10f4e61b614bd6bfcaf1fd59
-SHA1: 82d84f1114b7c31b6fa50ef8be2bbfeffe9e6990
-SHA256: b1904ef37989d3e9e605b37b229540a8807368cde824b4129aaf390a32154e27
+Size: 1360
+MD5sum: 29d3dd2a7e1ce2ce077ce006334636da
+SHA1: d099e5af8f29a5dd7d39a4bd2a0ff8085431bbfc
+SHA256: 823d83fc217860d7333f9c1443c5dcf335730de8736eb4a945b32d25f1e3ba53
 Section: kernel
 Priority: optional
 Description: Linux kernel for Samsung Galaxy Note10 Lite - Android Boot Image  (latest)
  This package depends to the latest kernel bootimage available for the Samsung Galaxy Note10 Lite.
-X-Droidian-Vcs-Revision: 39375d61c1035c4f467cece3e629ea64f0b94b6b
+X-Droidian-Vcs-Revision: 238515f6e74881397b8d182868134578e070cf20
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
 Package: linux-image-4.9.191-samsung-r7
 Source: linux-android-samsung-r7
-Version: 1.0.0+git20260812111656.39375d6.r7.server
+Version: 1.0.0+git20260812145741.238515f.r7.server
 Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
-Installed-Size: 38958
+Installed-Size: 34200
 Filename: ./linux-image-4.9.191-samsung-r7.deb
-Size: 9275384
-MD5sum: c3b6770d442ba1526893f5402c54de45
-SHA1: 9d9e7bc3cdcb11962c87e88e47f5d8b617416123
-SHA256: 3918659d0ebddbcc75c1670063a72aa172741e0752fd98bd16fdc99169306aa6
+Size: 8093784
+MD5sum: 1a36250df77e0b651079b83a46d4f212
+SHA1: 3af08ab2981d1d5b8a284296077ef48f8d057413
+SHA256: d0aa13f5212aa1943d40af7180c301b4210aef350c0e09cfa75b3fcf5e02071a
 Section: kernel
 Priority: optional
 Description: Linux kernel for Samsung Galaxy Note10 Lite
@@ -172,25 +187,25 @@ Description: Linux kernel for Samsung Galaxy Note10 Lite
  Note: This package only ships the kernel image and modules, you should probably
  look at the linux-bootimage-4.9.191-samsung-r7 package for a bootimage suitable
  for Android boot loaders.
-X-Droidian-Vcs-Revision: 39375d61c1035c4f467cece3e629ea64f0b94b6b
+X-Droidian-Vcs-Revision: 238515f6e74881397b8d182868134578e070cf20
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
 Package: linux-image-samsung-r7
 Source: linux-android-samsung-r7
-Version: 1.0.0+git20260812111656.39375d6.r7.server
+Version: 1.0.0+git20260812145741.238515f.r7.server
 Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 7
-Depends: linux-image-4.9.191-samsung-r7 (= 1.0.0+git20260812111656.39375d6.r7.server)
+Depends: linux-image-4.9.191-samsung-r7 (= 1.0.0+git20260812145741.238515f.r7.server)
 Filename: ./linux-image-samsung-r7.deb
 Size: 1340
-MD5sum: 6ab380c71b529114d444f522f6c6b332
-SHA1: 246fbe8a15be9dd19f5a6dd513ae6a9fb36dc953
-SHA256: a19fdcd9a2b30a66aa90664353d365c3535524d11b368ebc5e765785e1958df8
+MD5sum: d4061cd19cd341a023f6bc96b2824966
+SHA1: 6025bb1d6575c51ebbfe19390ea6adcf453e5230
+SHA256: 8b32f7054cbf8e17666d2a4b583f09e09b163b073e79d0b05af3acbe34041631
 Section: kernel
 Priority: optional
 Description: Linux kernel for Samsung Galaxy Note10 Lite (latest)
  This package depends to the latest kernel image available for the Samsung Galaxy Note10 Lite.
-X-Droidian-Vcs-Revision: 39375d61c1035c4f467cece3e629ea64f0b94b6b
+X-Droidian-Vcs-Revision: 238515f6e74881397b8d182868134578e070cf20
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
