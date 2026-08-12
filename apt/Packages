@@ -1,34 +1,56 @@
 Package: adaptation-samsung-r7
-Version: 0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1
+Version: 1.0.0+git20260812080519.7645669.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
-Installed-Size: 15
-Depends: adaptation-hybris-api33-phone, adaptation-samsung-r7-configs (= 0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1), openssh-server
-Filename: ./adaptation-samsung-r7_0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1_arm64.deb
-Size: 8936
-MD5sum: 9d935a29595460f9f2ee7b656ce67467
-SHA1: 757804afc649b063b1590b420d58f71f66f7b498
-SHA256: be4be1a242112faa4a9c9068c0c4752bf09c4f23163276102d2c0c7d59e82545
+Installed-Size: 9
+Depends: adaptation-hybris-api33, adaptation-samsung-r7-configs (= 1.0.0+git20260812080519.7645669.bookworm), adaptation-samsung-r7-desktop (= 1.0.0+git20260812080519.7645669.bookworm), openssh-server, ufw
+Conflicts: droidian-minimal, droidian-phosh-minimal
+Filename: ./adaptation-samsung-r7_1.0.0+git20260812080519.7645669.bookworm_arm64.deb
+Size: 2960
+MD5sum: 2b83961e4309def20bb868f591e2be2f
+SHA1: 6ef5fb9ce03daab7d595fe9954543ac866f9051c
+SHA256: 5012505462a2cf3e0466ccb2e3a474086cf2b2f7125bf6e48ec3c1cec13e3f2a
 Section: metapackages
 Priority: optional
-Description: Community adaptation for samsung-r7 - metapackage
+Description: Community adaptation for samsung-r7-server - metapackage
+ Server/console fork of adaptation-samsung-r7 (portable-cloud-stack
+ project) — no Phosh, no telephony.
+ .
+ Depends on adaptation-hybris-api33 (standard variant), not
+ adaptation-hybris-api33-phone: the phone variant's own dependency chain
+ (adaptation-hybris-phone -> ofono, ofono-scripts, ofono2mm) is how
+ cellular/telephony gets pulled onto the device at all. Using the standard
+ variant means that chain is never installed in the first place — this is
+ a real dependency-graph exclusion, not a service masked after the fact,
+ so a later `apt upgrade` can't silently bring it back.
+ .
+ Conflicts with droidian-phosh-minimal (and droidian-minimal, which
+ currently just depends back on it in this release channel) for the same
+ reason: apt's solver will refuse to have both installed, so the full
+ Phosh/GNOME desktop stack this metapackage would otherwise pull in
+ (phosh, gnome-control-center, chatty, evolution-data-server,
+ gnome-initial-setup, etc.) never lands in the image, permanently, not as
+ a one-time purge that could regress on a future apt operation.
+ .
  Pulls openssh-server so a first flash always has a working SSH server. The
  base image ships no SSH server at all, which left a fresh install with no
  remote access; SSH over Wi-Fi is the dependable fallback regardless of USB
  state.
+X-Droidian-Vcs-Revision: 764566961571b200527b3270cfe944ea1e659bcf
+X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: adaptation-samsung-r7-configs
 Source: adaptation-samsung-r7
-Version: 0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1
+Version: 1.0.0+git20260812080519.7645669.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
-Installed-Size: 198
-Depends: dconf-gsettings-backend | gsettings-backend, init-system-helpers (>= 1.52), python3-gi, python3-evdev, gir1.2-gtk-4.0, gir1.2-adw-1, gir1.2-gtk4layershell-1.0, libgtk4-layer-shell0, isc-dhcp-server, usbmuxd
-Filename: ./adaptation-samsung-r7-configs_0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1_arm64.deb
-Size: 36840
-MD5sum: c7a306fc2cae15acbd06cec3765dd41f
-SHA1: bd071eb9515149799bcf91d7ab74fdc043070ecd
-SHA256: 0109e1457868571f752175067f7722f17bc937bb11a5e9c4ce44ff26849df532
+Installed-Size: 219
+Depends: dconf-gsettings-backend | gsettings-backend, init-system-helpers (>= 1.52), python3-gi, python3-evdev, gir1.2-gtk-4.0, gir1.2-adw-1, gir1.2-gtk4layershell-1.0, libgtk4-layer-shell0, isc-dhcp-server, usbmuxd, libpam-google-authenticator, oathtool
+Filename: ./adaptation-samsung-r7-configs_1.0.0+git20260812080519.7645669.bookworm_arm64.deb
+Size: 37368
+MD5sum: 8d5d0846efeeb4b853fa3a226c935bfa
+SHA1: 7396197f505d6b1105533d924e07150be2aa3745
+SHA256: 9627e94736f126584f0c4823694fea469c2107eb63b33cc2c9c2728f64bd1427
 Section: metapackages
 Priority: optional
 Description: Community adaptation for samsung-r7 - adaptation configurations
@@ -44,221 +66,50 @@ Description: Community adaptation for samsung-r7 - adaptation configurations
  Mobile Device + Apple USB Ethernet), and ipheth (built into the kernel)
  binds the Ethernet interface from there - no adaptation-side wiring needed
  beyond having the package installed.
+ .
+ Pulls libpam-google-authenticator + oathtool for SSH TOTP 2FA
+ (key + verification code, no password auth at all — see postinst for the
+ pam.d/sshd_config patches). RFC 6238 TOTP, not tied to Google despite the
+ package name — no network calls, no account, works with any standards-
+ compliant authenticator app.
+X-Droidian-Vcs-Revision: 764566961571b200527b3270cfe944ea1e659bcf
+X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: adaptation-samsung-r7-desktop
 Source: adaptation-samsung-r7
-Version: 0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1
+Version: 1.0.0+git20260812080519.7645669.bookworm
 Architecture: arm64
 Maintainer: Yunus Tan <yunus.tan@outlook.com.tr>
-Installed-Size: 15
-Depends: adaptation-samsung-r7-configs (= 0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1), wayfire, waybar, fuzzel, foot, wlr-randr, iio-sensor-proxy
-Filename: ./adaptation-samsung-r7-desktop_0.0.0+git20260720203123.c4c06d0.bookworm+git20260728092037.c349ebc.bookworm+r7spen1+r7dns1+r7setup3+r7ssh1+r7spenapp2+r7desktop2+r7usb1+r7ios1+r7vol1+r7log1+r7ssh2+r7phosh2+r7apt1_arm64.deb
-Size: 9296
-MD5sum: 3ae70a7b332acc5244aa9aca1b4c45dd
-SHA1: d867a16d3b7a8fbdcfbbf794ed2bd3f42daa3a25
-SHA256: 401619d112a10ba29d29b4319ab80b11e42e9f05d1e3b9b671d2b78c2c03ae55
+Installed-Size: 9
+Depends: adaptation-samsung-r7-configs (= 1.0.0+git20260812080519.7645669.bookworm), phoc, waybar, foot, phosh-osk-stub, python3-evdev, pamtester, wlopm
+Filename: ./adaptation-samsung-r7-desktop_1.0.0+git20260812080519.7645669.bookworm_arm64.deb
+Size: 2972
+MD5sum: 62c1fdaec82bf1be5aeee848e9324f02
+SHA1: c20ca472e1bafb1c5ceeaa302938b6fad8196ec1
+SHA256: 0d0dbbfa30bfe2e2d22814fd375aa0a7495b2ba65262f672e09217953235bc1c
 Section: metapackages
 Priority: optional
-Description: Community adaptation for samsung-r7 - desktop-shell (wayfire) mode
- Opt-in landscape desktop session for the r7 built on wayfire over the
- hwcomposer-patched wlroots. NOT enabled by default (phosh stays the shipped
- session); switch live with r7-switch-session. The config files (wayfire.ini,
- waybar, wayfire-test.service, r7-auto-rotate.service, r7-switch-session) ship
- inert in -configs; this metapackage only pulls the runtime stack
- (wayfire/waybar/fuzzel/foot/wlr-randr/iio-sensor-proxy).
- Notes: the 'decoration' plugin is deliberately omitted (it null-derefs the
- 0.18-backport wlroots xdg lifecycle and crashes on toplevel map). Landscape
- rotation follows the accelerometer via r7-auto-rotate.service (net.hadess.
- SensorProxy -> wlr-randr --transform); no touch calibration matrix is used or
- needed, since wlroots already applies the output transform to absolute input
- devices internally (a matrix layered on top double-rotates touch).
-
-Package: droidian-camera
-Version: 16+z1.1+git20240608103441.a0b51cd.next.production+r7rot8
-Architecture: arm64
-Maintainer: Erik Inkinen <erik.inkinen@gmail.com>
-            Bardia Moshiri <fakeshell@bardia.tech>
-            Alexander Rutz <alex@familyrutz.com>
-Installed-Size: 349
-Depends: libc6 (>= 2.34), libgcc-s1 (>= 3.0), libglib2.0-0t64 (>= 2.12.0), libgstreamer1.0-0 (>= 1.0.0), libqt5core5t64 (>= 5.15.1), libqt5gui5t64 (>= 5.2.0) | libqt5gui5-gles (>= 5.2.0), libqt5multimedia5 (>= 5.15.1), libqt5qml5 (>= 5.1.0), libstdc++6 (>= 13.1), qml-module-qtmultimedia, qml-module-qtsensors, libqt5multimedia5-plugins, qml-module-qtquick2, qml-module-qtquick-controls2, qml-module-qtquick-window2, qt5-cameraplugin-aal, qml-module-qt-labs-platform, qml-module-qt-labs-folderlistmodel, qml-module-qt-labs-settings, qml-module-qtquick-layouts, qml-module-qtgraphicaleffects, libqt5svg5, gstreamer1.0-droid, gstreamer1.0-plugins-good, gstreamer1.0-plugins-base
-Conflicts: pinhole
-Provides: pinhole
-Filename: ./droidian-camera_16+z1.1+git20240608103441.a0b51cd.next.production+r7rot8_arm64.deb
-Size: 171572
-MD5sum: 36ddeea7e7addc244a58980f3dc8038e
-SHA1: e4c854d57de4b572a8caa4386621e430a36c5311
-SHA256: fcb7f102418e3c80b28d8f0e6b07715799a69d2c34811dd86b943bb9dceb990b
-Section: libs
-Priority: optional
-Multi-Arch: foreign
-Description: This package contains Droidian's default camera app.
-
-Package: flatpak-extension-gl-hybris
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 3442
-Depends: libhybris (= 0.1.0+git20200424-5+r7cam1), libhybris-common1, libhardware2 (= 0.1.0+git20200424-5+r7cam1)
-Recommends: flatpak-hybris
-Filename: ./flatpak-extension-gl-hybris_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 395676
-MD5sum: 83b85084ad3c52625bfece3b768d1265
-SHA1: b7fe29ff31a0aae9a0d82c3dda83d8cab71a6af8
-SHA256: 5d7d4c246619b36152f73fd4ea42a1dcb3b4a817e57cda0260d2a63b2cfc003b
-Section: libs
-Priority: optional
-Description: libhybris extension for the org.freedesktop.Platform.GL runtime
- This package contains all of the libhybris libraries, shipped as an
- extension of the org.freedesktop.Platform.GL.
- .
- This allows usage of libhybris inside flatpaks as well. Note that installing
- this package won't enable the extension automatically.
- Check the flatpak-hybris package for more details.
-
-Package: libandroid-properties1
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 98
-Depends: libc6 (>= 2.17), libhybris-common1 (>= 0.1.0+git20200424)
-Filename: ./libandroid-properties1_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 8400
-MD5sum: 0379c8df9f5348087b93c31e0bb63f06
-SHA1: 48f97fef552b053d8c4828bea9e5adfb506514db
-SHA256: df362463b3a5168b4e1cc50f6e62a115d71ff9f6d77197720275d39d1244fc3c
-Section: libs
-Priority: optional
-Description: Library to provide access to get, set and list Android properties
- Contains a library that provides access to get, set and list Android
- properties, which can be used by any Ubuntu app that needs to probe
- for properties (gps, modem, device specifics).
-
-Package: libhardware2
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 97
-Depends: libhybris-common1 (>= 0.1.0+git20200424)
-Filename: ./libhardware2_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 8004
-MD5sum: 531c6c21ec4448c2f9c3482b5a9b6fa2
-SHA1: 4ad3b0df27bba1381573b61fbc917e15fc2c9d3b
-SHA256: d0093917bd8bd25158509d884913b31d0a2a1788f6ad0ec9f46d2592a993e1b9
-Section: libs
-Priority: optional
-Description: Library to provide access to the Android libhardware HAL
- Contains a library that provides access to the Android libhardware HAL,
- which can be used to access a wide range of other HALs, such as audio,
- power, gralloc, etc.
- .
- Hybris is a solution that allows the use of bionic-based HW adaptations in
- glibc systems.
-
-Package: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 2048
-Depends: libandroid-properties1 (= 0.1.0+git20200424-5+r7cam1), libhardware2 (>= 0.1.0+git20200424), libmedia1, libc6 (>= 2.38), libgbm1 (>= 7.11~1), libgcc-s1 (>= 3.0), libhybris-common1 (>= 0.1.0+git20200424), libstdc++6 (>= 11), libwayland-client0 (>= 1.20.0), libwayland-egl1 (>= 1.15.0), libwayland-server0 (>= 1.2.0)
-Filename: ./libhybris_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 144604
-MD5sum: 24c1ea0be07fc2b660097da16d1873e8
-SHA1: 5d2a3883693246b6e7768b886352793b41f99c81
-SHA256: a502aa3e11ece92593d74736d9f46c826d36d2c91044d014398395d7e77ebbad
-Section: libs
-Priority: optional
-Description: Allows one to run bionic-based HW adaptations in glibc systems - libs
- Hybris is a solution that allows the use of bionic-based HW adaptations in
- glibc systems.
-
-Package: libhybris-common1
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 1354
-Depends: libc6 (>> 2.41), libc6 (<< 2.42), libgcc-s1 (>= 4.2), libstdc++6 (>= 11)
-Filename: ./libhybris-common1_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 259708
-MD5sum: b2798e54d5cc8ff4855c6286f32c9fac
-SHA1: 6b7b5cca2cbcf3359aa6673d265aca94b19259c4
-SHA256: 838004e49dc56bec76fd5bda68f7a9bfad2c3fe24f91f9a789e007fe91122698
-Section: libs
-Priority: optional
-Description: Common library that contains the Android linker and custom hooks
- Contains a common library that contains the Android linker, used to
- dynamically load and use symbols from Android based libraries.
- .
- Hybris is a solution that allows the use of bionic-based HW adaptations in
- glibc systems.
-
-Package: libhybris-utils
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 171
-Depends: libhybris (= 0.1.0+git20200424-5+r7cam1), libandroid-properties1 (>= 0.1.0+git20200424), libc6 (>= 2.34)
-Filename: ./libhybris-utils_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 11200
-MD5sum: 4b50541b45f454026bb13f9e16340975
-SHA1: cd3513faa489286f411da3896cf80d65525158ce
-SHA256: 6b03bd6184808bd119b3600ddfc62954724b39fab78441081ef5c806ebbac0a8
-Section: utils
-Priority: optional
-Description: Utilities to help working with the Android HW abstraction layer
- Contains utilities used to help working with Android HW abstraction layer.
- .
- Hybris is a solution that allows the use of bionic-based HW adaptations in
- glibc systems.
-
-Package: libmedia1
-Source: libhybris
-Version: 0.1.0+git20200424-5+r7cam1
-Architecture: arm64
-Maintainer: Halium Developers <admin@halium.org>
-Installed-Size: 97
-Depends: libhybris-common1 (>= 0.1.0+git20200424)
-Filename: ./libmedia1_0.1.0+git20200424-5+r7cam1_arm64.deb
-Size: 16172
-MD5sum: fbde43f5272bcee4168cc703f990fe3a
-SHA1: f9649cd1dcf4508d1dd377659ccedc062cae54db
-SHA256: c4421425cf05dd9879eebf9bebfca1d2346c6be672efb98b977c1d8e1ac9d42c
-Section: libs
-Priority: optional
-Description: Library to provide access to the Android Media HAL
- Contains a library that provides access to the Android Media HAL,
- which abstract the access to the Android libstagefright based
- decoders.
- .
- Hybris is a solution that allows the use of bionic-based HW adaptations in
- glibc systems.
-
-Package: libphosh-0.45-0
-Source: phosh
-Version: 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1
-Architecture: arm64
-Maintainer: Guido Günther <agx@sigxcpu.org>
-Installed-Size: 2100
-Depends: libappstream5 (>= 1.0.0), libc6 (>= 2.38), libcairo2 (>= 1.10.0), libcallaudio-0-1 (>= 0.0.5), libfeedback-0.0-0 (>= 0.7.0), libfribidi0 (>= 0.19.2), libgcr-base-3-1 (>= 3.8.0), libgcr-ui-3-1 (>= 3.8.0), libgdk-pixbuf-2.0-0 (>= 2.35.4), libglib2.0-0t64 (>= 2.83.0), libgmobile0 (>= 0.1.0), libgnome-bluetooth-3.0-13 (>= 42.3), libgnome-desktop-3-20t64 (>= 3.34.2), libgtk-3-0t64 (>= 3.21.5), libgudev-1.0-0 (>= 234), libhandy-1-0 (>= 1.1.90), libmm-glib0 (>= 1.24.0), libnm0 (>= 1.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.37.2), libpolkit-agent-1-0 (>= 0.99), libpolkit-gobject-1-0 (>= 0.94), libpulse-mainloop-glib0 (>= 0.99.1), libpulse0 (>= 0.99.1), libsecret-1-0 (>= 0.7), libsoup-3.0-0 (>= 3.0.3), libsystemd0 (>= 213), libupower-glib3 (>= 0.99.14), libwayland-client0 (>= 1.20.0), phosh-common (>= 0.45.0)
-Filename: ./libphosh-0.45-0_0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1_arm64.deb
-Size: 464420
-MD5sum: fe80ccc4cc1c0a6c69c9280363d9fc3e
-SHA1: b41f4d514a3e102c8caa1d2c0fd99bb404ad012d
-SHA256: a281868a325360e5b4577648e3196fdb3bbf57286c5fe2ce0628f277e1ec07b3
-Section: libs
-Priority: optional
-Multi-Arch: same
-Homepage: https://phosh.mobi/
-Description: Pure Wayland shell for mobile devices - binding shared library
- Phosh is a graphical shell for Wayland compositors speaking the layer-surface
- protocol and aimed at mobile devices like smart phones and tablets using touch
- based inputs and small screens.
- .
- This package contains the shared library for language bindings.
+Description: Community adaptation for samsung-r7-server - console session
+ Default (only) desktop-shell session for the r7-server fork: bare phoc
+ (no phosh shell) hosting foot as its single client, over the
+ hwcomposer-patched wlroots. phoc, not wayfire — see below. Used
+ portrait/vertical, no auto-rotate: no iio-sensor-proxy/wlr-randr
+ dependency. r7-auto-rotate.service/-script still ship inert (harmless,
+ Requires=iio-sensor-proxy.service which doesn't exist in this image, so
+ it simply never starts) but are no longer pulled in as a real
+ dependency.
+ Notes: wayfire was tried first and dropped (2026-08-11) after live
+ testing found an unfixed bug — wlroots 0.18-backport surfaces (both
+ xdg-shell and layer-shell) are born "uninitialized," breaking focus
+ routing, so touch never reached any client. phoc doesn't have this bug
+ (it's the same compositor phosh runs on this device every day, already
+ proven with real touch input) and is otherwise a strictly simpler
+ dependency — no window manager, no `decoration`-plugin crash to work
+ around, no touch calibration matrix needed since wlroots already applies
+ the output transform to absolute input devices internally (a matrix
+ layered on top double-rotates touch).
+X-Droidian-Vcs-Revision: 764566961571b200527b3270cfe944ea1e659bcf
+X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/adaptation-samsung-r7-server.git
 
 Package: linux-bootimage-4.9.191-samsung-r7
 Source: linux-android-samsung-r7
@@ -268,7 +119,7 @@ Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 112657
 Pre-Depends: flash-bootimage (>= 4)
 Depends: linux-image-4.9.191-samsung-r7 (= 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian)
-Filename: ./linux-bootimage-4.9.191-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
+Filename: ./linux-bootimage-4.9.191-samsung-r7.deb
 Size: 48904836
 MD5sum: 9f0de1910eb74d14200698dcddbc92e4
 SHA1: 0cf291565b9e744490bc7d367545e5cb2724d271
@@ -290,7 +141,7 @@ Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 7
 Depends: linux-bootimage-4.9.191-samsung-r7 (= 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian)
-Filename: ./linux-bootimage-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
+Filename: ./linux-bootimage-samsung-r7.deb
 Size: 1416
 MD5sum: df96a3b976773e6526c6e3edfdcf9446
 SHA1: 96f12fd832a64c7715a44401fe08867117317440
@@ -302,51 +153,13 @@ Description: Linux kernel for Samsung Galaxy Note10 Lite - Android Boot Image  (
 X-Droidian-Vcs-Revision: 4d5ed1b6acd66cf574cb8c4d7cab70076563d144
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
-Package: linux-headers-4.9.191-samsung-r7
-Source: linux-android-samsung-r7
-Version: 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian
-Architecture: arm64
-Maintainer: Droidian porters <info@droidian.org>
-Installed-Size: 55380
-Depends: linux-image-4.9.191-samsung-r7 (= 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian)
-Filename: ./linux-headers-4.9.191-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
-Size: 8311404
-MD5sum: 1ff287d8111c887fd3810cd9d2220704
-SHA1: b7bee0649f24e9338fb2a43011d1e07ef3102fd5
-SHA256: 3fc9fef36ceff95cc0de87335c7f6887beee0630449eec88c2a02a46a65c8825
-Section: kernel
-Priority: optional
-Description: Linux kernel for Samsung Galaxy Note10 Lite - Headers
- This package contains the Linux kernel headers for the Samsung Galaxy Note10 Lite device.
-X-Droidian-Vcs-Revision: 4d5ed1b6acd66cf574cb8c4d7cab70076563d144
-X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
-
-Package: linux-headers-samsung-r7
-Source: linux-android-samsung-r7
-Version: 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian
-Architecture: arm64
-Maintainer: Droidian porters <info@droidian.org>
-Installed-Size: 7
-Depends: linux-headers-4.9.191-samsung-r7 (= 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian)
-Filename: ./linux-headers-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
-Size: 1400
-MD5sum: 0b0a53c0b7f02227cc64756472834365
-SHA1: 01be1eb035a1cfb7d73e91cb854df4400c0a0578
-SHA256: 7d1c32df5f6cf4899d6e37090259bef423d298fd20270895a08b5f0c0fb7d443
-Section: kernel
-Priority: optional
-Description: Linux kernel for Samsung Galaxy Note10 Lite - Headers (latest)
- This package depends to the latest kernel headers available for the Samsung Galaxy Note10 Lite.
-X-Droidian-Vcs-Revision: 4d5ed1b6acd66cf574cb8c4d7cab70076563d144
-X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
-
 Package: linux-image-4.9.191-samsung-r7
 Source: linux-android-samsung-r7
 Version: 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian
 Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 39248
-Filename: ./linux-image-4.9.191-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
+Filename: ./linux-image-4.9.191-samsung-r7.deb
 Size: 9359712
 MD5sum: c80874ee74111e871d061fc0999186fe
 SHA1: 3f74263d4cbf1bc088402a5ee74a42caf084587f
@@ -369,7 +182,7 @@ Architecture: arm64
 Maintainer: Droidian porters <info@droidian.org>
 Installed-Size: 7
 Depends: linux-image-4.9.191-samsung-r7 (= 0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian)
-Filename: ./linux-image-samsung-r7_0.0.0+git20260727140518.3f314d2.droidian+git20260728044303.7e1f184.droidian+git20260808095313.4d5ed1b.droidian_arm64.deb
+Filename: ./linux-image-samsung-r7.deb
 Size: 1392
 MD5sum: c4a6055f747e060937a31b3a2a358e63
 SHA1: fa920d1494a138b0b97bd83d119e42995f3359be
@@ -381,75 +194,6 @@ Description: Linux kernel for Samsung Galaxy Note10 Lite (latest)
 X-Droidian-Vcs-Revision: 4d5ed1b6acd66cf574cb8c4d7cab70076563d144
 X-Droidian-Vcs-Url: https://github.com/note10lite-droidian/linux-android-samsung-r7.git
 
-Package: phosh
-Version: 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1
-Architecture: arm64
-Maintainer: Guido Günther <agx@sigxcpu.org>
-Installed-Size: 3481
-Depends: libappstream5 (>= 1.0.0), libc6 (>= 2.38), libcairo2 (>= 1.10.0), libcallaudio-0-1 (>= 0.0.5), libecal-2.0-3 (>= 3.33.4), libedataserver-1.2-27t64 (>= 3.25.90), libfeedback-0.0-0 (>= 0.7.0), libfribidi0 (>= 0.19.2), libgcr-base-3-1 (>= 3.8.0), libgcr-ui-3-1 (>= 3.8.0), libgdk-pixbuf-2.0-0 (>= 2.35.4), libglib2.0-0t64 (>= 2.83.0), libgmobile0 (>= 0.1.0), libgnome-bluetooth-3.0-13 (>= 42.3), libgnome-desktop-3-20t64 (>= 3.34.2), libgtk-3-0t64 (>= 3.21.5), libgudev-1.0-0 (>= 234), libhandy-1-0 (>= 1.1.90), libical3t64 (>= 3.0.0), libmm-glib0 (>= 1.24.0), libnm0 (>= 1.24.0), libpam0g (>= 0.99.7.1), libpango-1.0-0 (>= 1.37.2), libpolkit-agent-1-0 (>= 0.99), libpolkit-gobject-1-0 (>= 0.94), libpulse-mainloop-glib0 (>= 0.99.1), libpulse0 (>= 0.99.1), libsecret-1-0 (>= 0.7), libsoup-3.0-0 (>= 3.0.3), libsystemd0 (>= 213), libupower-glib3 (>= 0.99.14), libwayland-client0 (>= 1.20.0), fonts-lato, gnome-shell-common, gsettings-desktop-schemas (>= 47), libcap2-bin, phoc (>= 0.45.0), phosh-common (= 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1)
-Recommends: feedbackd (>= 0.5.0), fonts-cantarell, gnome-session-bin, gnome-session-common, gnome-settings-daemon, iio-sensor-proxy, librsvg2-common, network-manager-config-connectivity-debian, kbd, phosh-mobile-tweaks, phosh-plugins, slurp, squeekboard | phosh-osk-stub
-Breaks: gnome-calls (<< 42), gnome-control-center (<< 42), libgtk-3-0 (<< 3.24.30), xdg-desktop-portal-phosh (<< 0.44~)
-Provides: notification-daemon, polkit-1-auth-agent
-Filename: ./phosh_0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1_arm64.deb
-Size: 680000
-MD5sum: 1c052657de1e86d70e765aaaf7e8894b
-SHA1: 6bc432f71c7d2e5be0d7538c41bb921a6cd2c30f
-SHA256: e77305dfe9b54e685e05fc8b76793b017956b03a4bea3815c95dfdb211d48859
-Section: x11
-Priority: optional
-Homepage: https://phosh.mobi/
-Description: Pure Wayland shell for mobile devices
- Phosh is a graphical shell for Wayland compositors speaking the layer-surface
- protocol and aimed at mobile devices like smart phones and tablets using touch
- based inputs and small screens.
- .
- It's part of the Phosh Mobile Environment based on GNOME/GTK. For the full
- stack see the phosh-full and phosh-core metapackages.
-
-Package: phosh-common
-Source: phosh
-Version: 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1
-Architecture: all
-Maintainer: Guido Günther <agx@sigxcpu.org>
-Installed-Size: 46
-Depends: dconf-gsettings-backend | gsettings-backend
-Conflicts: phosh (<< 0.45~rc1-3~)
-Filename: ./phosh-common_0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1_all.deb
-Size: 12064
-MD5sum: 28ae18858d01265dd97c6ac088daccf7
-SHA1: 6b54c318d0468d859eebe07d432c262ae221cf10
-SHA256: 8593c2e7b77b3d1400d985a6418fa6e374a41bb4a861e1c5b806cb73f99488ca
-Section: x11
-Priority: optional
-Multi-Arch: foreign
-Homepage: https://phosh.mobi/
-Description: Pure Wayland shell for mobile devices - Common files
- Phosh is a graphical shell for Wayland compositors speaking the layer-surface
- protocol and aimed at mobile devices like smart phones and tablets using touch
- based inputs and small screens.
- .
- This package contains arch-independent files needed by phosh and libphosh.
-
-Package: phosh-plugins
-Source: phosh
-Version: 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1
-Architecture: arm64
-Maintainer: Guido Günther <agx@sigxcpu.org>
-Installed-Size: 1356
-Depends: dconf-gsettings-backend | gsettings-backend, libadwaita-1-0 (>= 1.5~beta), libc6 (>= 2.17), libevdocument3-4t64 (>= 3.5.2), libevview3-3t64 (>= 3.0.2), libglib2.0-0t64 (>= 2.83.0), libgmobile0 (>= 0.1.0), libgtk-3-0t64 (>= 3.19.12), libgtk-4-1 (>= 4.9.2), libhandy-1-0 (>= 1.1.90), gsettings-desktop-schemas, phoc (>= 0.13.1), phosh (= 0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1)
-Breaks: phosh-mobile-settings (<< 0.44~)
-Filename: ./phosh-plugins_0.49.0+git20250824213429.cf38ab5.next.phosh.0.49+r7mon1+r7clock1+r7phosh1_arm64.deb
-Size: 93148
-MD5sum: 41bace96cfdd9b7c1f1107043e0e1e23
-SHA1: 4bdafd20f3315685a59a386bca5f1440c16365e3
-SHA256: 5de01a19efeb7dcfe3a03f94343f8f0adb1eacafe2e4f4dad81d2bbdfb3978b5
-Section: x11
-Priority: optional
-Homepage: https://phosh.mobi/
-Description: Pure Wayland shell for mobile devices - Plugins
- Phosh is a graphical shell for Wayland compositors speaking the layer-surface
- protocol and aimed at mobile devices like smart phones and tablets using touch
- based inputs and small screens.
- .
- This package contains additional plugins.
-
+dpkg-scanpackages: warning: Packages in archive but missing from override file:
+dpkg-scanpackages: warning:   adaptation-samsung-r7 adaptation-samsung-r7-configs adaptation-samsung-r7-desktop linux-bootimage-4.9.191-samsung-r7 linux-bootimage-samsung-r7 linux-image-4.9.191-samsung-r7 linux-image-samsung-r7
+dpkg-scanpackages: info: Wrote 7 entries to output Packages file.

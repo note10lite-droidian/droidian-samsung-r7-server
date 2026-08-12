@@ -9,29 +9,15 @@ samsung_r7:
   apilevel: 33
   use_internal_repository: true
 
+  # This is the r7-server fork's own recipe, not the phone image's -
+  # firefox/nautilus/gstreamer1.0-tools (GUI apps + camera-debug tooling)
+  # dropped since there's no Phosh/GUI session here at all to run them in
+  # (see adaptation-samsung-r7-server's own Conflicts: droidian-phosh-minimal).
   packages:
     - adaptation-samsung-r7
     - adaptation-samsung-r7-configs
     - linux-image-samsung-r7
     - linux-bootimage-samsung-r7
-
-    # --- Chosen on the device, after testing the alternatives ---
-    # If these are not in the image they are lost on a full wipe.
-
-    # Browser. Chromium was the best option for a while and Epiphany (WebKit)
-    # performed worse than both, eventually breaking outright. Firefox turned
-    # out to be by far the most stable of the three here (decided 2026-07-25)
-    # and is the default.
-    #
-    # Note: browser video is software-decoded whichever one you pick. The
-    # hardware decoder (droidvdec) exists but no browser can reach it across
-    # libhybris - that is a Halium-wide limit, not a Firefox one.
-    - firefox
-
-    # File manager. portfolio-filemanager (the Phosh default) did not work,
-    # and nemo runs but is not adaptive and its Preferences window hangs.
-    # Nautilus is adaptive and works.
-    - nautilus
 
     # WAYDROID IS DELIBERATELY ABSENT. Enabling it is the user's decision,
     # made from Phosh Settings; the image does not preinstall it. What the
